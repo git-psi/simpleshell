@@ -1,35 +1,5 @@
 # Config Hyprland (exemple)
 
-La config Hyprland de l'auteur, faite pour simpleshell, à copier telle quelle ou en partie. Les
-deux fichiers vont dans `~/.config/hypr/`, à côté de `simpleshell.lua` (installé par
-`install.sh`). Il faut Hyprland 0.56 ou plus récent (config en Lua).
-
-```sh
-cd ~/.config/hypr
-# copie hyprland.lua et keybinds.lua depuis les blocs ci-dessous, puis :
-hyprctl reload
-```
-
-`simpleshell.lua` contient déjà le lancement du shell, ses raccourcis (`Super + A`, `N`, `Espace`,
-`Échap`, `P`, `Maj + S`, `Impr. écran`), les touches volume, luminosité et média, le curseur, les
-animations et la couleur des bordures. Ces deux fichiers ajoutent le reste : clavier, apparence, règles de fenêtres, applis,
-fenêtres, bureaux et scratchpad. Les commentaires sont en anglais, comme dans le code du shell.
-
-## À adapter
-
-- **Clavier** : la config est en **AZERTY** (`kb_layout = "fr"`). En QWERTY, mets
-  `kb_layout = "us"` et remplace la liste `digits` de `keybinds.lua` par
-  `{ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }`.
-- **Applis** : `Super + W` lance `firefox`, `Super + M` lance `rmpc-open` (musique). Change-les
-  ou supprime ces lignes si tu ne les as pas.
-- **Écrans** : gérés par Monique (`Super + P`), qui écrit `monitors.lua`. Sans Monique, supprime
-  la ligne `pcall(require, "monitors")` et ajoute tes propres `hl.monitor(...)`.
-- **Ordre** : `require("simpleshell")` doit rester **à la fin** de `hyprland.lua`. Il libère
-  puis reprend ses raccourcis, et passe donc après les tiens.
-- **Conflit** : `Super + Maj + S` ouvre le menu de capture de simpleshell, qui l'emporte sur
-  le `Super + Maj + S` du scratchpad de `keybinds.lua`. Pour garder les deux, donne une autre
-  touche au scratchpad dans `keybinds.lua`.
-
 ## Raccourcis de cette config
 
 | Raccourci | Action |
