@@ -1,6 +1,4 @@
-# Config Hyprland (exemple)
-
-## Raccourcis de cette config
+# Ma config Hyprland
 
 | Raccourci | Action |
 |---|---|
