@@ -6,13 +6,15 @@ Ton bureau reste vide. Le panneau rapide, les notifications, le lanceur ou les c
 apparaissent d'un raccourci ou d'un glissement de doigts sur le pavé tactile, puis s'effacent.
 Écrit avec [Quickshell](https://quickshell.org), pour Arch Linux.
 
-![simpleshell : le panneau rapide](docs/screenshots/panel.jpg)
+![SimpleShell : le panneau rapide](docs/screenshots/panel.jpg)
 
 <details>
 <summary><b>Voir la vidéo</b></summary>
 <br>
 
-![Démonstration de simpleshell](docs/showcase.mp4)
+![Démonstration de SimpleShell](docs/showcase.gif)
+
+[Version MP4](docs/showcase.mp4)
 
 </details>
 
@@ -29,10 +31,11 @@ apparaissent d'un raccourci ou d'un glissement de doigts sur le pavé tactile, p
 Et aussi :
 
 - **Des bulles discrètes (OSD)** pour le volume, la luminosité, le clavier, le micro, le mode
-  avion, ...
+  avion…
 - **Des rappels** : batterie faible, clé USB branchée.
 - **La demande de mot de passe administrateur** (polkit), aux couleurs du shell.
-- **L'écran de verrouillage et l'écran de connexion** assortis (utilise sddm).
+- **L'écran de verrouillage et l'écran de connexion** assortis. *Lock* verrouille avec hyprlock ;
+  *Sleep* et la mise en veille passent par l'écran de connexion (SDDM), qui rouvre ta session.
 - **Tes applis aux mêmes couleurs** : GTK, Qt, KDE, Alacritty, mpv, micro, imv, et les bordures
   des fenêtres. Change la couleur, tout s'adapte.
 
@@ -44,7 +47,8 @@ Appuie sur `Impr. écran` (ou `Super + Maj + S`).
 
 - **Screen**, **Region**, **Window** : tout l'écran, une zone à dessiner, ou une fenêtre à
   cliquer.
-- **Record screen**, **Record region**, Enregistre l'ecran sous forme vidéo, pour arrêter, appuie à nouveau sur `Impr. écran`.
+- **Record screen**, **Record region** : enregistre l'écran en vidéo. Pour arrêter, appuie à
+  nouveau sur `Impr. écran`.
 - Pressé deux fois de suite, `Impr. écran` capture directement tout l'écran.
 
 La capture est copiée dans le presse-papier et rangée dans `Images/Screenshots` (ou
@@ -62,7 +66,7 @@ La capture est copiée dans le presse-papier et rangée dans `Images/Screenshots
 | `Super + Échap` | menu d'alimentation |
 | `Impr. écran` ou `Super + Maj + S` | capture d'écran |
 | `Maj + Impr. écran` | capture d'une zone, directement |
-| `Super + P` | disposition d'écrans (Monique) |
+| `Super + P` | disposition des écrans (Monique) |
 | 4 doigts ← / → (pavé tactile) | panneau rapide / notifications |
 
 Les touches de volume, de luminosité, de musique et de rétroéclairage clavier marchent aussi, avec
@@ -111,7 +115,7 @@ sans la remplacer.
 
 </details>
 
-> **À ne pas lancer en même temps** : simpleshell gère lui-même les notifications et les demandes
+> **À ne pas lancer en même temps** : SimpleShell gère lui-même les notifications et les demandes
 > de mot de passe. Désactive mako, dunst, swaync, hyprpolkitagent ou polkit-gnome, et toute autre
 > barre (Waybar…).
 
@@ -122,8 +126,7 @@ délais de veille, moteur de recherche, position des notifications, ce que montr
 Après avoir changé l'accent ou le fond d'écran, clique sur **Sync** à la ligne *Login screen* pour
 que l'écran de connexion se synchronise.
 
-Pour aller plus loin, tout se modifie à la main, et le shell se recharge tout seul à
-l'enregistrement :
+Pour aller plus loin, tout se modifie à la main :
 
 | Fichier | Ce qu'il contient |
 |---|---|
@@ -132,13 +135,16 @@ l'enregistrement :
 | `Theme.qml` | tout le style : couleurs, police, tailles, arrondis, durées |
 | `Config.qml` | les commandes (verrouiller, veille…) et les moteurs de recherche |
 
+Le shell se recharge tout seul quand tu enregistres un fichier `.qml`. Pour `simpleshell.lua`,
+lance `hyprctl reload`. `hyprlock.conf` est relu au prochain verrouillage.
+
 Le reste de Hyprland (clavier, fenêtres, bureaux) reste dans ta propre config.
-Tu peux voir ma configuration ici: [HYPRLAND_FR.md](HYPRLAND_FR.md).
+Tu peux voir la mienne ici : [HYPRLAND_FR.md](HYPRLAND_FR.md).
 
 ## Développement
 
 ```sh
-pkill -x qs; qs -c simpleshell      # lance le shell dans le terminal, avec ses messages de deboguage.
+pkill -x qs; qs -c simpleshell      # lance le shell dans le terminal, avec ses messages de débogage
 ```
 
 Chaque fichier enregistré recharge le shell. Pour le relancer en arrière-plan :
@@ -168,10 +174,11 @@ hypr/            config Hyprland, hypridle, hyprlock
 
 </details>
 
-Les regles pour le style suivi durant le développement :
+Les règles de style suivies pendant le développement :
 
 - Chaque couleur, taille ou durée vient de `Theme.qml`, jamais écrite ailleurs.
-- Des coins arrondis partout, ni cercles ni pilules (radius interne = radius externe - marge entre les deux).
+- Des coins arrondis partout, ni cercles ni pilules (rayon intérieur = rayon extérieur − marge
+  entre les deux).
 - Pas d'ombres : ce qui flotte a un contour d'un pixel.
 - Icônes [Lucide](https://lucide.dev) : copie le SVG dans `components/lucide/`, puis
   `Icon { name: "wifi" }`.
