@@ -1,5 +1,7 @@
 # SimpleShell
 
+[English version](README.md)
+
 **Un shell pour Hyprland, sans barre : rien à l'écran, tout à portée de main.**
 
 Ton bureau reste vide. Le panneau rapide, les notifications, le lanceur ou les captures d'écran
@@ -22,23 +24,23 @@ apparaissent d'un raccourci ou d'un glissement de doigts sur le pavé tactile, p
 
 <table>
 <tr>
-<td><img src="docs/screenshots/panel.jpg" alt="Panneau rapide" width="480"></td>
+<td><img src="docs/screenshots/panel.jpg" alt="Panneau rapide" width="520"></td>
 <td><b>Panneau rapide</b> <code>Super + A</code><br>Heure, batterie, Wi-Fi, Bluetooth, Ne pas déranger, éclairage nocturne, profil d'énergie, caféine, luminosité, son, micro, musique en cours, applis en arrière-plan.</td>
 </tr>
 <tr>
-<td><img src="docs/screenshots/notifications.jpg" alt="Notifications" width="480"></td>
+<td><img src="docs/screenshots/notifications.jpg" alt="Notifications" width="520"></td>
 <td><b>Notifications</b> <code>Super + N</code><br>Historique, aperçu des images, boutons d'action, Ne pas déranger.</td>
 </tr>
 <tr>
-<td><img src="docs/screenshots/launcher.jpg" alt="Lanceur" width="480"></td>
+<td><img src="docs/screenshots/launcher.jpg" alt="Lanceur" width="520"></td>
 <td><b>Lanceur</b> <code>Super + Espace</code><br>Tape le nom d'une appli. Commence par une espace pour chercher sur le web.</td>
 </tr>
 <tr>
-<td><img src="docs/screenshots/power.jpg" alt="Menu d'alimentation" width="480"></td>
+<td><img src="docs/screenshots/power.jpg" alt="Menu d'alimentation" width="520"></td>
 <td><b>Menu d'alimentation</b> <code>Super + Échap</code><br>Verrouiller, veille, déconnexion, éteindre, redémarrer.</td>
 </tr>
 <tr>
-<td><img src="docs/screenshots/settings.jpg" alt="Réglages" width="480"></td>
+<td><img src="docs/screenshots/settings.jpg" alt="Réglages" width="520"></td>
 <td><b>Réglages</b> (bouton du panneau)<br>Couleur d'accent, thème clair ou sombre, fond d'écran, délais de veille, position des notifications…</td>
 </tr>
 </table>
@@ -146,7 +148,7 @@ Pour aller plus loin, tout se modifie à la main :
 | Fichier | Ce qu'il contient |
 |---|---|
 | `hypr/simpleshell.lua` | les raccourcis du shell, les animations des fenêtres, le curseur |
-| `hypr/hyprlock.conf` | l'écran de verrouillage (redirige vers sddm) |
+| `hypr/hyprlock.conf` | l'écran de verrouillage |
 | `Theme.qml` | tout le style : couleurs, police, tailles, arrondis, durées |
 | `Config.qml` | les commandes (verrouiller, veille…) et les moteurs de recherche |
 

@@ -8,7 +8,7 @@
 # (fish + fastfetch), Nautilus, imv, mpv, micro, Monique, the Bibata cursor (system-wide) and the
 # SDDM login screen. Official repositories first;
 # the AUR only for what isn't there (Monique, Bibata). Only the shell's own Hyprland config is
-# installed (simpleshell.lua): your hyprland.lua stays yours (see the README for a full example).
+# installed (simpleshell.lua): your hyprland.lua stays yours (full example in HYPRLAND.md).
 # Safe to run again (updates links and packages, keeps existing files).
 set -euo pipefail
 
@@ -93,11 +93,11 @@ if [[ -f $hypr/hyprland.lua ]]; then
     fi
 elif [[ -f $hypr/hyprland.conf ]]; then
     warn "you have a hyprland.conf: simpleshell needs a Lua config (hyprland.lua, Hyprland ≥ 0.56)."
-    warn "Convert it, then add require(\"simpleshell\") at its end (example config in the README)."
+    warn "Convert it, then add require(\"simpleshell\") at its end (example config in HYPRLAND.md)."
 else
     cat > "$hypr/hyprland.lua" <<'EOF'
 -- Hyprland config. A complete example (keyboard, windows, workspaces, rules) is in the simpleshell
--- README: copy what you like above the line below.
+-- HYPRLAND.md: copy what you like above the line below.
 -- Meanwhile: Super+Space opens the launcher (type "alacritty"), Super+A the quick panel.
 
 -- simpleshell (launch, shortcuts, cursor, animations): keep it last.

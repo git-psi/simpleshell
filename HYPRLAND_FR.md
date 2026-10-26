@@ -1,5 +1,7 @@
 # Ma config Hyprland
 
+[English version](HYPRLAND.md)
+
 | Raccourci | Action |
 |---|---|
 | `Super + Entrée` ou `Super + T` | terminal (Alacritty) |
@@ -18,7 +20,7 @@
 | `Super + Ctrl + 1…0` | aller au bureau n (`Maj` en plus : y emmener la fenêtre) |
 | 3 doigts ← / → | changer de bureau |
 | `Super + S`, ou 3–4 doigts ↑ / ↓ | afficher / cacher le scratchpad |
-| `Super + Maj + S` | mettre la fenêtre dans le scratchpad, ou l'en sortir (pris par la capture de simpleshell, voir « Conflit ») |
+| `Super + Maj + S` | mettre la fenêtre dans le scratchpad, ou l'en sortir (pris par la capture de SimpleShell) |
 | `Super + Maj + P` | revenir au profil d'écran « Portable », puis ouvrir Monique |
 
 ## `hyprland.lua`
