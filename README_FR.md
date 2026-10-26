@@ -20,13 +20,28 @@ apparaissent d'un raccourci ou d'un glissement de doigts sur le pavé tactile, p
 
 ## Ce qu'il y a dedans
 
-| | |
-| --- | --- |
-| <img src="docs/screenshots/panel.jpg" alt="Panneau rapide" width="420"> | **Panneau rapide** `Super + A`<br>Heure, batterie, Wi-Fi, Bluetooth, Ne pas déranger, éclairage nocturne, profil d'énergie, caféine, luminosité, son, micro, musique en cours, applis en arrière-plan. |
-| <img src="docs/screenshots/notifications.jpg" alt="Notifications" width="420"> | **Notifications** `Super + N`<br>Historique, aperçu des images, boutons d'action, Ne pas déranger. |
-| <img src="docs/screenshots/launcher.jpg" alt="Lanceur" width="420"> | **Lanceur** `Super + Espace`<br>Tape le nom d'une appli. Commence par une espace pour chercher sur le web. |
-| <img src="docs/screenshots/power.jpg" alt="Menu d'alimentation" width="420"> | **Menu d'alimentation** `Super + Échap`<br>Verrouiller, veille, déconnexion, éteindre, redémarrer. |
-| <img src="docs/screenshots/settings.jpg" alt="Réglages" width="420"> | **Réglages** (bouton du panneau)<br>Couleur d'accent, thème clair ou sombre, fond d'écran, délais de veille, position des notifications… |
+<table>
+<tr>
+<td><img src="docs/screenshots/panel.jpg" alt="Panneau rapide" width="480"></td>
+<td><b>Panneau rapide</b> <code>Super + A</code><br>Heure, batterie, Wi-Fi, Bluetooth, Ne pas déranger, éclairage nocturne, profil d'énergie, caféine, luminosité, son, micro, musique en cours, applis en arrière-plan.</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/notifications.jpg" alt="Notifications" width="480"></td>
+<td><b>Notifications</b> <code>Super + N</code><br>Historique, aperçu des images, boutons d'action, Ne pas déranger.</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/launcher.jpg" alt="Lanceur" width="480"></td>
+<td><b>Lanceur</b> <code>Super + Espace</code><br>Tape le nom d'une appli. Commence par une espace pour chercher sur le web.</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/power.jpg" alt="Menu d'alimentation" width="480"></td>
+<td><b>Menu d'alimentation</b> <code>Super + Échap</code><br>Verrouiller, veille, déconnexion, éteindre, redémarrer.</td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/settings.jpg" alt="Réglages" width="480"></td>
+<td><b>Réglages</b> (bouton du panneau)<br>Couleur d'accent, thème clair ou sombre, fond d'écran, délais de veille, position des notifications…</td>
+</tr>
+</table>
 
 Et aussi :
 
@@ -186,3 +201,10 @@ Les règles de style suivies pendant le développement :
 ## Licence
 
 MIT (`LICENSE`). Icônes [Lucide](https://lucide.dev) sous licence ISC (`LICENSE-lucide`).
+
+---
+
+<p align="center">
+Fait avec ❤️ · imaginé par <a href="https://github.com/git-psi">git-psi</a>, développé avec
+<a href="https://claude.com/claude-code">Claude</a>
+</p>
