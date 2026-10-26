@@ -21,7 +21,6 @@ apparaissent d'un raccourci ou d'un glissement de doigts sur le pavé tactile, p
 ## Ce qu'il y a dedans
 
 | | |
-|---|---|
 | <img src="docs/screenshots/panel.jpg" alt="Panneau rapide" width="420"> | **Panneau rapide** `Super + A`<br>Heure, batterie, Wi-Fi, Bluetooth, Ne pas déranger, éclairage nocturne, profil d'énergie, caféine, luminosité, son, micro, musique en cours, applis en arrière-plan. |
 | <img src="docs/screenshots/notifications.jpg" alt="Notifications" width="420"> | **Notifications** `Super + N`<br>Historique, aperçu des images, boutons d'action, Ne pas déranger. |
 | <img src="docs/screenshots/launcher.jpg" alt="Lanceur" width="420"> | **Lanceur** `Super + Espace`<br>Tape le nom d'une appli. Commence par une espace pour chercher sur le web. |
