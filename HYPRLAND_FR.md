@@ -15,9 +15,9 @@
 | `Super + Maj + flèches` | déplacer la fenêtre |
 | `Super + Alt + flèches` | redimensionner la fenêtre |
 | `Super + clic gauche / droit` | déplacer / redimensionner à la souris |
-| `Super + Ctrl + ← / →` ou `Super + molette` | bureau précédent / suivant |
+| `Super + Ctrl + ← / →` ou `Super + molette` | bureau précédent / suivant (5 par écran, en boucle) |
 | `Super + Ctrl + Maj + ← / →` ou `Super + Maj + molette` | emmener la fenêtre sur le bureau précédent / suivant |
-| `Super + Ctrl + 1…0` | aller au bureau n (`Maj` en plus : y emmener la fenêtre) |
+| `Super + 1…5` | aller au bureau n de l'écran (`Maj` en plus : y emmener la fenêtre) |
 | 3 doigts ← / → | changer de bureau |
 | `Super + S`, ou 3–4 doigts ↑ / ↓ | afficher / cacher le scratchpad |
 | `Super + Maj + S` | mettre la fenêtre dans le scratchpad, ou l'en sortir (pris par la capture de SimpleShell) |
@@ -196,49 +196,75 @@ hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 
--- Workspaces: Super + wheel or Super + Ctrl + left/right, on the active screen.
--- With Shift as well, the active window comes along.
--- Next: goes to the next existing workspace; at the end, opens a new one only if something is
--- left behind (Hyprland removes empty workspaces on its own when leaving them).
--- Previous: no wrap-around from the first to the last.
-local function neighbour(step)
-    local cur = hl.get_active_workspace()
-    if not cur then return nil end
-    for _, ws in ipairs(hl.get_workspaces()) do
-        if not ws.special and ws.monitor and cur.monitor and ws.monitor.id == cur.monitor.id
-            and (ws.id - cur.id) * step > 0 then
-            return cur
-        end
+-- Workspaces: five per screen, always there (even empty), 1-5 on the first screen, 6-10 on the
+-- second… Super + wheel or Super + Ctrl + left/right cycles through them: after the 5th comes the
+-- 1st again. With Shift as well, the active window comes along.
+-- Super + 1…5 goes to one of them, with Shift to take the window there.
+local per_screen = 5
+
+-- Screens in a stable order (the laptop's first): the n-th one gets workspaces (n-1)*5+1 … n*5.
+local function screens()
+    local list = hl.get_monitors()
+    table.sort(list, function(a, b) return a.id < b.id end)
+    return list
+end
+local function base(monitor)
+    for i, m in ipairs(screens()) do
+        if m.id == monitor.id then return (i - 1) * per_screen end
     end
-    return nil, cur
+    return 0
 end
 
--- go(target): focus to switch workspaces, window.move to take the window there.
--- keep: number of windows left behind when leaving.
-local function workspace_next(go, keep)
+-- The rules keep each screen's workspaces on it, and alive when empty. Set again when screens
+-- come and go (the previous ones are turned off).
+local rules = {}
+local function keep_workspaces()
+    for _, rule in ipairs(rules) do rule:set_enabled(false) end
+    rules = {}
+    for i, m in ipairs(screens()) do
+        for n = 1, per_screen do
+            rules[#rules + 1] = hl.workspace_rule({
+                workspace  = tostring((i - 1) * per_screen + n),
+                monitor    = m.name,
+                persistent = true,
+                default    = n == 1,
+            })
+        end
+    end
+end
+keep_workspaces()
+hl.on("hyprland.start", keep_workspaces)
+hl.on("monitor.added", keep_workspaces)
+hl.on("monitor.removed", keep_workspaces)
+
+-- n-th workspace (1…5) of the active screen, and the position of the one shown there.
+local function workspace(n)
+    local m = hl.get_active_monitor()
+    return m and base(m) + n
+end
+local function position()
+    local m = hl.get_active_monitor()
+    local ws = m and hl.get_active_workspace(m)
+    local p = ws and ws.id - base(m) or 1
+    return (p >= 1 and p <= per_screen) and p or 1
+end
+
+-- go: focus to switch workspaces, window.move to take the window there.
+local function cycle(go, step)
     return function()
-        local has_next, cur = neighbour(1)
-        if has_next then
-            hl.dispatch(go({ workspace = "m+1" }))
-        elseif cur and keep(cur) > 0 then
-            hl.dispatch(go({ workspace = "emptyn" }))
-        end
+        local target = workspace((position() - 1 + step) % per_screen + 1)
+        if target then hl.dispatch(go({ workspace = target })) end
     end
 end
-
-local function workspace_prev(go)
+local function to(go, n)
     return function()
-        if neighbour(-1) then
-            hl.dispatch(go({ workspace = "m-1" }))
-        end
+        local target = workspace(n)
+        if target then hl.dispatch(go({ workspace = target })) end
     end
 end
 
-local function stay(ws) return ws.windows end
-local function leave(ws) return ws.windows - 1 end
-
-local go_next, go_prev = workspace_next(hl.dsp.focus, stay), workspace_prev(hl.dsp.focus)
-local take_next, take_prev = workspace_next(hl.dsp.window.move, leave), workspace_prev(hl.dsp.window.move)
+local go_next, go_prev = cycle(hl.dsp.focus, 1), cycle(hl.dsp.focus, -1)
+local take_next, take_prev = cycle(hl.dsp.window.move, 1), cycle(hl.dsp.window.move, -1)
 
 hl.bind(mod .. " + mouse_down",           go_next)
 hl.bind(mod .. " + mouse_up",             go_prev)
@@ -252,13 +278,11 @@ hl.bind(mod .. " + CTRL + SHIFT + left",  take_prev, { repeating = true })
 -- Touchpad: three fingers horizontally, the workspace follows the fingers.
 hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
 
--- Workspace by number: Super + Ctrl + 1…0 to go there, with Shift to take the window there.
--- AZERTY top row: bind the unshifted character (&, é, ", …).
-local digits = { "ampersand", "eacute", "quotedbl", "apostrophe", "parenleft",
-                 "minus", "egrave", "underscore", "ccedilla", "agrave" }
-for i, key in ipairs(digits) do
-    hl.bind(mod .. " + CTRL + " .. key,         hl.dsp.focus({ workspace = i }))
-    hl.bind(mod .. " + CTRL + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+-- Super + 1…5. AZERTY top row: bind the unshifted character (&, é, ", ', ().
+local digits = { "ampersand", "eacute", "quotedbl", "apostrophe", "parenleft" }
+for n, key in ipairs(digits) do
+    hl.bind(mod .. " + " .. key,         to(hl.dsp.focus, n))
+    hl.bind(mod .. " + SHIFT + " .. key, to(hl.dsp.window.move, n))
 end
 
 -- Scratchpad: a hidden workspace over the desktop, Super+S to show or hide it.
