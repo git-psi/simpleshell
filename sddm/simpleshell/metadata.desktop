@@ -1,0 +1,9 @@
+[SddmGreeterTheme]
+Name=simpleshell
+Description=Clean login screen in the simpleshell style
+Authors=Félix
+MainScript=Main.qml
+ConfigFile=theme.conf
+Version=1.0
+QtVersion=6
+Theme-API=2.0

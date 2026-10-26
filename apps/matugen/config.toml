@@ -1,0 +1,67 @@
+# simpleshell's matugen config (not ~/.config/matugen's): run by apps/theme.sh with simpleshell's
+# accent. The templates take simpleshell's exact grays and accent (hs.*, imported as JSON) and only
+# ask matugen for the colors harmonized with the accent.
+
+[config.custom_colors]
+# Terminal and syntax highlighting colors, tinted toward the accent.
+red = { color = "#e5534b", blend = true }
+green = { color = "#57ab5a", blend = true }
+blue = { color = "#539bf5", blend = true }
+magenta = { color = "#b083f0", blend = true }
+cyan = { color = "#39c5cf", blend = true }
+
+[templates.gtk4]
+input_path = "templates/gtk4.css"
+output_path = "~/.config/gtk-4.0/gtk.css"
+
+[templates.gtk3]
+input_path = "templates/gtk3.css"
+output_path = "~/.config/gtk-3.0/gtk.css"
+
+[templates.alacritty]
+input_path = "templates/alacritty.toml"
+output_path = "~/.config/alacritty/simpleshell.toml"
+
+[templates.micro]
+input_path = "templates/micro.micro"
+output_path = "~/.config/micro/colorschemes/simpleshell.micro"
+
+[templates.imv]
+input_path = "templates/imv.conf"
+output_path = "~/.config/imv/config"
+
+[templates.mpv]
+input_path = "templates/mpv-osc.conf"
+output_path = "~/.config/mpv/script-opts/osc.conf"
+
+[templates.mpv-console]
+input_path = "templates/mpv-console.conf"
+output_path = "~/.config/mpv/script-opts/console.conf"
+
+[templates.mpv-osd]
+input_path = "templates/mpv.conf"
+output_path = "~/.config/mpv/simpleshell.conf"
+
+[templates.hyprland]
+input_path = "templates/hyprland.lua"
+output_path = "~/.local/state/simpleshell/hypr-colors.lua"
+
+[templates.qt6ct]
+input_path = "templates/qtct.conf"
+output_path = "~/.config/qt6ct/colors/simpleshell.conf"
+
+[templates.qt5ct]
+input_path = "templates/qtct.conf"
+output_path = "~/.config/qt5ct/colors/simpleshell.conf"
+
+[templates.kde]
+input_path = "templates/kdeglobals"
+output_path = "~/.local/state/simpleshell/kdeglobals"
+
+[templates.rmpc]
+input_path = "templates/rmpc.ron"
+output_path = "~/.config/rmpc/themes/simpleshell.ron"
+
+[templates.hyprlock]
+input_path = "templates/hyprlock.conf"
+output_path = "~/.local/state/simpleshell/hyprlock-colors.conf"
