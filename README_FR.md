@@ -1,4 +1,4 @@
-# simpleshell
+# SimpleShell
 
 **Un shell pour Hyprland, sans barre : rien à l'écran, tout à portée de main.**
 
@@ -9,12 +9,10 @@ apparaissent d'un raccourci ou d'un glissement de doigts sur le pavé tactile, p
 ![simpleshell : le panneau rapide](docs/screenshots/panel.jpg)
 
 <details>
-<summary><b>▶ Voir la vidéo</b></summary>
+<summary><b>Voir la vidéo</b></summary>
 <br>
 
-![Démonstration de simpleshell](docs/showcase.gif)
-
-[Version MP4](docs/showcase.mp4)
+![Démonstration de simpleshell](docs/showcase.mp4)
 
 </details>
 
@@ -23,36 +21,34 @@ apparaissent d'un raccourci ou d'un glissement de doigts sur le pavé tactile, p
 | | |
 |---|---|
 | <img src="docs/screenshots/panel.jpg" alt="Panneau rapide" width="420"> | **Panneau rapide** `Super + A`<br>Heure, batterie, Wi-Fi, Bluetooth, Ne pas déranger, éclairage nocturne, profil d'énergie, caféine, luminosité, son, micro, musique en cours, applis en arrière-plan. |
-| <img src="docs/screenshots/notifications.jpg" alt="Notifications" width="420"> | **Notifications** `Super + N`<br>Historique, aperçu des images, boutons d'action, Ne pas déranger. Les nouvelles s'affichent dans le coin de ton choix. |
+| <img src="docs/screenshots/notifications.jpg" alt="Notifications" width="420"> | **Notifications** `Super + N`<br>Historique, aperçu des images, boutons d'action, Ne pas déranger. |
 | <img src="docs/screenshots/launcher.jpg" alt="Lanceur" width="420"> | **Lanceur** `Super + Espace`<br>Tape le nom d'une appli. Commence par une espace pour chercher sur le web. |
-| <img src="docs/screenshots/power.jpg" alt="Menu d'alimentation" width="420"> | **Menu d'alimentation** `Super + Échap`<br>Verrouiller, veille, déconnexion, éteindre, redémarrer. Au clavier ou à la souris. |
+| <img src="docs/screenshots/power.jpg" alt="Menu d'alimentation" width="420"> | **Menu d'alimentation** `Super + Échap`<br>Verrouiller, veille, déconnexion, éteindre, redémarrer. |
 | <img src="docs/screenshots/settings.jpg" alt="Réglages" width="420"> | **Réglages** (bouton du panneau)<br>Couleur d'accent, thème clair ou sombre, fond d'écran, délais de veille, position des notifications… |
 
 Et aussi :
 
 - **Des bulles discrètes (OSD)** pour le volume, la luminosité, le clavier, le micro, le mode
-  avion, le chargeur ou le changement de bureau.
-- **Des rappels** : batterie faible, clé USB branchée (avec un bouton pour l'ouvrir).
+  avion, ...
+- **Des rappels** : batterie faible, clé USB branchée.
 - **La demande de mot de passe administrateur** (polkit), aux couleurs du shell.
-- **L'écran de verrouillage et l'écran de connexion** assortis.
+- **L'écran de verrouillage et l'écran de connexion** assortis (utilise sddm).
 - **Tes applis aux mêmes couleurs** : GTK, Qt, KDE, Alacritty, mpv, micro, imv, et les bordures
-  des fenêtres. Change l'accent, tout suit.
+  des fenêtres. Change la couleur, tout s'adapte.
 
 ## Captures d'écran et vidéos
 
 ![Menu de capture](docs/screenshots/capture.jpg)
 
-Appuie sur `Impr. écran` (ou `Super + Maj + S`) : l'écran se fige et le menu s'ouvre.
+Appuie sur `Impr. écran` (ou `Super + Maj + S`).
 
 - **Screen**, **Region**, **Window** : tout l'écran, une zone à dessiner, ou une fenêtre à
-  cliquer. Une fenêtre est capturée seule, sans ce qui passe devant.
-- **Record screen**, **Record region** : un compte à rebours 3, 2, 1, puis ça enregistre, avec le
-  son si **Record sound** est activé. Pour arrêter, appuie à nouveau sur `Impr. écran`.
+  cliquer.
+- **Record screen**, **Record region**, Enregistre l'ecran sous forme vidéo, pour arrêter, appuie à nouveau sur `Impr. écran`.
 - Pressé deux fois de suite, `Impr. écran` capture directement tout l'écran.
 
 La capture est copiée dans le presse-papier et rangée dans `Images/Screenshots` (ou
-`Vidéos/Recordings`). Une notification te propose de l'ouvrir, de la montrer dans son dossier ou
-de la supprimer.
+`Vidéos/Recordings`).
 
 ![Notification d'une capture](docs/screenshots/screenshot-notification.jpg)
 
@@ -64,10 +60,10 @@ de la supprimer.
 | `Super + N` | notifications |
 | `Super + Espace` | lanceur |
 | `Super + Échap` | menu d'alimentation |
-| `Impr. écran` ou `Super + Maj + S` | capture d'écran ou vidéo |
+| `Impr. écran` ou `Super + Maj + S` | capture d'écran |
 | `Maj + Impr. écran` | capture d'une zone, directement |
-| `Super + P` | écrans (Monique) |
-| 4 doigts ← / → | panneau rapide / notifications |
+| `Super + P` | disposition d'écrans (Monique) |
+| 4 doigts ← / → (pavé tactile) | panneau rapide / notifications |
 
 Les touches de volume, de luminosité, de musique et de rétroéclairage clavier marchent aussi, avec
 leur bulle à l'écran.
@@ -95,13 +91,13 @@ git clone https://github.com/git-psi/simpleshell ~/.config/quickshell/simpleshel
 ~/.config/quickshell/simpleshell/install.sh
 ```
 
-Puis déconnecte-toi et choisis Hyprland sur l'écran de connexion. C'est tout.
+Puis déconnecte-toi et choisis Hyprland sur l'écran de connexion. C'est tout !
 
 L'installeur installe ce qu'il faut, active les services, et ajoute le shell à ta config Hyprland
-sans la remplacer. Tu peux le relancer à tout moment, par exemple après un `git pull`.
+sans la remplacer.
 
 <details>
-<summary>Le détail de ce qu'il fait</summary>
+<summary>Détail du script</summary>
 
 - **Paquets** des dépôts officiels : Quickshell, les outils Hyprland, PipeWire, NetworkManager,
   Bluetooth, la gestion d'énergie, les outils de capture, les polices. Et quelques applis par
@@ -124,7 +120,7 @@ sans la remplacer. Tu peux le relancer à tout moment, par exemple après un `gi
 **Le plus simple : la page Réglages** du panneau rapide. Couleur d'accent, thème, fond d'écran,
 délais de veille, moteur de recherche, position des notifications, ce que montre le panneau.
 Après avoir changé l'accent ou le fond d'écran, clique sur **Sync** à la ligne *Login screen* pour
-que l'écran de connexion suive. L'interface est en anglais.
+que l'écran de connexion se synchronise.
 
 Pour aller plus loin, tout se modifie à la main, et le shell se recharge tout seul à
 l'enregistrement :
@@ -132,17 +128,17 @@ l'enregistrement :
 | Fichier | Ce qu'il contient |
 |---|---|
 | `hypr/simpleshell.lua` | les raccourcis du shell, les animations des fenêtres, le curseur |
-| `hypr/hyprlock.conf` | l'écran de verrouillage |
+| `hypr/hyprlock.conf` | l'écran de verrouillage (redirige vers sddm) |
 | `Theme.qml` | tout le style : couleurs, police, tailles, arrondis, durées |
 | `Config.qml` | les commandes (verrouiller, veille…) et les moteurs de recherche |
 
-Le reste de Hyprland (clavier, fenêtres, bureaux) reste dans ta propre config. Pour partir de la
-mienne, elle est prête à copier dans [HYPRLAND_FR.md](HYPRLAND_FR.md).
+Le reste de Hyprland (clavier, fenêtres, bureaux) reste dans ta propre config.
+Tu peux voir ma configuration ici: [HYPRLAND_FR.md](HYPRLAND_FR.md).
 
 ## Développement
 
 ```sh
-pkill -x qs; qs -c simpleshell      # lance le shell dans le terminal, avec ses messages
+pkill -x qs; qs -c simpleshell      # lance le shell dans le terminal, avec ses messages de deboguage.
 ```
 
 Chaque fichier enregistré recharge le shell. Pour le relancer en arrière-plan :
@@ -172,11 +168,10 @@ hypr/            config Hyprland, hypridle, hyprlock
 
 </details>
 
-Quelques règles pour garder un style cohérent :
+Les regles pour le style suivi durant le développement :
 
 - Chaque couleur, taille ou durée vient de `Theme.qml`, jamais écrite ailleurs.
-- Des coins arrondis partout, ni cercles ni pilules. Un arrondi intérieur vaut l'arrondi
-  extérieur moins la marge (`Theme.inner()`).
+- Des coins arrondis partout, ni cercles ni pilules (radius interne = radius externe - marge entre les deux).
 - Pas d'ombres : ce qui flotte a un contour d'un pixel.
 - Icônes [Lucide](https://lucide.dev) : copie le SVG dans `components/lucide/`, puis
   `Icon { name: "wifi" }`.
