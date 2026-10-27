@@ -15,19 +15,26 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("dbus-update-activation-environment --systemd QT_QPA_PLATFORMTHEME XCURSOR_THEME"
         .. " XCURSOR_SIZE WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE XDG_CURRENT_DESKTOP"
         .. "; systemctl --user start moniqued")
-    hl.exec_cmd("qs -c simpleshell -d")
+    hl.exec_cmd("qs -c simpleshell -n -d")
 end)
 
 -- Safety net: if no screen is on anymore (external screen unplugged while the profile turns the
 -- laptop's off, booting without the external screen…), turn the laptop's screen back on.
 -- FALLBACK = placeholder screen Hyprland creates when there's none left. Left without a screen,
 -- the shell keeps its windows on the placeholder and shows nothing: restart it too.
+-- Several events can fire together (monitor removed + config reloaded when Monique applies a
+-- profile): only one restart at a time, otherwise each one starts its own shell and two
+-- instances then toggle their panels on every shortcut (Super+A opening then closing at once).
+local restarting = false
 local function ensure_screen()
     for _, m in ipairs(hl.get_monitors()) do
         if m.name ~= "FALLBACK" then return end
     end
     hl.monitor({ output = "eDP-1", mode = "preferred", position = "auto", scale = 1 })
-    hl.exec_cmd("sleep 1; pkill -x qs; pkill -x quickshell; sleep 0.5; qs -c simpleshell -d")
+    if restarting then return end
+    restarting = true
+    hl.exec_cmd("sleep 1; pkill -x qs; pkill -x quickshell; sleep 0.5; qs -c simpleshell -n -d")
+    hl.timer(function() restarting = false end, { timeout = 5000, type = "oneshot" })
 end
 local function ensure_screen_soon()
     hl.timer(ensure_screen, { timeout = 500, type = "oneshot" })   -- ms, time for Hyprland to settle its screens
