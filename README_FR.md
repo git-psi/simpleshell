@@ -37,7 +37,7 @@ apparaissent d'un raccourci ou d'un glissement de doigts sur le pavé tactile, p
 </tr>
 <tr>
 <td><img src="docs/screenshots/power.jpg" alt="Menu d'alimentation" width="520"></td>
-<td><b>Menu d'alimentation</b> <code>Super + Échap</code><br>Verrouiller, veille, déconnexion, éteindre, redémarrer.</td>
+<td><b>Menu d'alimentation</b> <code>Super + Échap</code> ou le bouton d'alimentation<br>Verrouiller, veille, déconnexion, éteindre, redémarrer.</td>
 </tr>
 <tr>
 <td><img src="docs/screenshots/settings.jpg" alt="Réglages" width="520"></td>
@@ -52,7 +52,8 @@ Et aussi :
 - **Des rappels** : batterie faible, clé USB branchée.
 - **La demande de mot de passe administrateur** (polkit), aux couleurs du shell.
 - **L'écran de verrouillage et l'écran de connexion** assortis. *Lock* verrouille avec hyprlock ;
-  *Sleep* et la mise en veille passent par l'écran de connexion (SDDM), qui rouvre ta session.
+  *Sleep*, le verrouillage après inactivité et la mise en veille passent par l'écran de connexion
+  (SDDM), qui rouvre ta session.
 - **Tes applis aux mêmes couleurs** : GTK, Qt, KDE, Alacritty, mpv, micro, imv, et les bordures
   des fenêtres. Change la couleur, tout s'adapte.
 
@@ -80,7 +81,7 @@ La capture est copiée dans le presse-papier et rangée dans `Images/Screenshots
 | `Super + A` | panneau rapide |
 | `Super + N` | notifications |
 | `Super + Espace` | lanceur |
-| `Super + Échap` | menu d'alimentation |
+| `Super + Échap`, bouton d'alimentation | menu d'alimentation |
 | `Impr. écran` ou `Super + Maj + S` | capture d'écran |
 | `Maj + Impr. écran` | capture d'une zone, directement |
 | `Super + P` | disposition des écrans (Monique) |

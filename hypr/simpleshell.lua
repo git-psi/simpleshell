@@ -58,6 +58,13 @@ rebind("SUPER + A",      hl.dsp.global("simpleshell:panel"))
 rebind("SUPER + N",      hl.dsp.global("simpleshell:notifications"))
 rebind("SUPER + Space",  hl.dsp.global("simpleshell:launcher"))
 rebind("SUPER + Escape", hl.dsp.global("simpleshell:power"))
+-- Power button: the power menu too, instead of shutting down right away. logind leaves the key to
+-- Hyprland while this session runs (inhibitor held until Hyprland quits).
+rebind("XF86PowerOff",   hl.dsp.global("simpleshell:power"))
+hl.on("hyprland.start", function()
+    hl.exec_cmd("systemd-inhibit --what=handle-power-key --who=simpleshell"
+        .. " --why='Power button opens the power menu' --mode=block sleep infinity")
+end)
 
 -- Touchpad, four fingers: swipe right for notifications (left of the screen), swipe left for the
 -- quick panel (on the right). The other way closes whatever is open (simpleshell).

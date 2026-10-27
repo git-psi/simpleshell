@@ -23,7 +23,8 @@ Scope {
         if (lock > 0 && off > 0 && off <= lock) off = lock + 30;
         let t = "# Written by simpleshell (power/Idle.qml): delays picked in Settings > Idle.\n"
             + "source = " + Quickshell.shellDir + "/hypr/hypridle.conf\n";
-        if (lock > 0) t += listener(lock, "loginctl lock-session");
+        // Idle lock: SDDM login screen, like Sleep (power/greeter.sh).
+        if (lock > 0) t += listener(lock, Quickshell.shellDir + "/power/greeter.sh");
         if (off > 0) t += listener(off, dpms.arg("disable"), dpms.arg("enable"));
         if (Settings.suspendMinutes > 0) t += listener(Settings.suspendMinutes * 60, "systemctl suspend");
         return t;

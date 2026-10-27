@@ -37,7 +37,7 @@ shortcut or a swipe on the touchpad, then fade away. Built with
 </tr>
 <tr>
 <td><img src="docs/screenshots/power.jpg" alt="Power menu" width="520"></td>
-<td><b>Power menu</b> <code>Super + Escape</code><br>Lock, sleep, log out, shut down, restart.</td>
+<td><b>Power menu</b> <code>Super + Escape</code> or the power button<br>Lock, sleep, log out, shut down, restart.</td>
 </tr>
 <tr>
 <td><img src="docs/screenshots/settings.jpg" alt="Settings" width="520"></td>
@@ -50,8 +50,8 @@ And also:
 - **Discreet bubbles (OSD)** for volume, brightness, keyboard, microphone, airplane mode…
 - **Reminders**: low battery, USB drive plugged in.
 - **The administrator password prompt** (polkit), in the shell's colors.
-- **Matching lock and login screens.** *Lock* locks with hyprlock; *Sleep* and suspend go
-  through the login screen (SDDM), which reopens your session.
+- **Matching lock and login screens.** *Lock* locks with hyprlock; *Sleep*, the idle lock and
+  suspend go through the login screen (SDDM), which reopens your session.
 - **Your apps in the same colors**: GTK, Qt, KDE, Alacritty, mpv, micro, imv, and the window
   borders. Change the color, everything follows.
 
@@ -78,7 +78,7 @@ The capture is copied to the clipboard and saved in `Pictures/Screenshots` (or
 | `Super + A` | quick panel |
 | `Super + N` | notifications |
 | `Super + Space` | launcher |
-| `Super + Escape` | power menu |
+| `Super + Escape`, power button | power menu |
 | `Print` or `Super + Shift + S` | screenshot |
 | `Shift + Print` | screenshot of an area, right away |
 | `Super + P` | screen layout (Monique) |
