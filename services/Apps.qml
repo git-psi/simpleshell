@@ -51,6 +51,25 @@ Singleton {
             .map(r => r.a);
     }
 
+    // Quickshell only watches the app folders that exist at startup: the first flatpak (or the
+    // first app in a new folder) creates its folder, and its apps would stay invisible. So we wait
+    // for a missing folder to appear, then restart the shell once to read it.
+    readonly property var appDirs: [Quickshell.env("XDG_DATA_HOME") || Quickshell.env("HOME") + "/.local/share"]
+        .concat((Quickshell.env("XDG_DATA_DIRS") || "/usr/local/share:/usr/share").split(":"))
+        .filter(d => d !== "")
+        .map(d => d + "/applications")
+    Process {
+        running: true
+        // Exit 0 when a folder missing at startup appears, 1 if none was missing.
+        command: ["sh", "-c", "n=$#; for d; do [ -d \"$d\" ] || set -- \"$@\" \"$d\"; done; shift $n\n"
+            + "[ $# -gt 0 ] || exit 1\n"
+            + "while :; do for d; do [ -d \"$d\" ] && exit 0; done; sleep 10; done", "sh"].concat(root.appDirs)
+        onExited: code => {
+            if (code === 0) Quickshell.execDetached(["sh", "-c",
+                "pkill -x qs; pkill -x quickshell; sleep 0.5; qs -c simpleshell -n -d"]);
+        }
+    }
+
     // Default browser (xdg-mime), for web search.
     property var browser: null
     Process {
