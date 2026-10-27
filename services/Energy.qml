@@ -1,6 +1,6 @@
 pragma Singleton
 // Power profile. Fn+F5 changes it in the kernel (asus-wmi) and power-profiles-daemon only notices
-// late: so platform_profile is read directly (sysfs doesn't notify, the file is polled). Without
+// late: so platform_profile is followed directly (sysfs-watch.py, woken up by the kernel). Without
 // that file (other machines), power-profiles-daemon is followed.
 import Quickshell
 import Quickshell.Io
@@ -17,18 +17,19 @@ Singleton {
         PowerProfiles.profile = p;
     }
 
-    FileView {
-        id: file
-        path: "/sys/firmware/acpi/platform_profile"
-        onLoaded: {
-            const v = text().trim();
-            if (v === root.platform) return;
-            root.platform = v;
-            root.profile = v === "quiet" || v === "low-power" ? PowerProfile.PowerSaver
-                         : v === "performance" ? PowerProfile.Performance : PowerProfile.Balanced;
+    Process {
+        running: true
+        command: ["python3", Quickshell.shellDir + "/services/sysfs-watch.py", "/sys/firmware/acpi/platform_profile"]
+        stdout: SplitParser {
+            onRead: line => {
+                const v = line.trim();
+                if (v === root.platform) return;
+                root.platform = v;
+                root.profile = v === "quiet" || v === "low-power" ? PowerProfile.PowerSaver
+                             : v === "performance" ? PowerProfile.Performance : PowerProfile.Balanced;
+            }
         }
     }
-    Timer { interval: 250; running: root.platform !== ""; repeat: true; onTriggered: file.reload() }
     Connections {
         target: PowerProfiles
         enabled: root.platform === ""

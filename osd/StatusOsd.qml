@@ -73,26 +73,29 @@ Osd {
         }
     }
 
-    // Keyboard backlight: sysfs doesn't notify changes, so the file is polled.
+    // Keyboard backlight changed by its key: the kernel signals it on brightness_hw_changed
+    // (sysfs-watch.py, nothing runs in between).
     property int kbd: -1
     property int kbdMax: 0
+    readonly property string kbdDir: Config.kbdLed !== "" ? "/sys/class/leds/" + Config.kbdLed : ""
     FileView {
-        id: kbdMaxFile
-        path: Config.kbdLed !== "" ? "/sys/class/leds/" + Config.kbdLed + "/max_brightness" : ""
+        path: osd.kbdDir !== "" ? osd.kbdDir + "/max_brightness" : ""
         onLoaded: osd.kbdMax = parseInt(text()) || 0
     }
-    FileView {
-        id: kbdFile
-        path: Config.kbdLed !== "" ? "/sys/class/leds/" + Config.kbdLed + "/brightness" : ""
-        onLoaded: {
-            const v = parseInt(text());
-            if (isNaN(v) || v === osd.kbd) return;
-            const first = osd.kbd < 0;
-            osd.kbd = v;
-            if (!first && osd.kbdMax > 0) osd.showLevel(v === 0 ? "keyboard-off" : "keyboard", v / osd.kbdMax, v === 0);
+    Process {
+        running: osd.kbdMax > 0
+        command: ["python3", Quickshell.shellDir + "/services/sysfs-watch.py",
+                  osd.kbdDir + "/brightness", osd.kbdDir + "/brightness_hw_changed"]
+        stdout: SplitParser {
+            onRead: line => {
+                const v = parseInt(line);
+                if (isNaN(v) || v === osd.kbd) return;
+                const first = osd.kbd < 0;
+                osd.kbd = v;
+                if (!first) osd.showLevel(v === 0 ? "keyboard-off" : "keyboard", v / osd.kbdMax, v === 0);
+            }
         }
     }
-    Timer { interval: 250; running: osd.kbdMax > 0; repeat: true; onTriggered: kbdFile.reload() }
 
     // Airplane mode = all radios blocked. `rfkill event` gives the state of each one at startup,
     // then every change: "… idx 1 type 1 op 2 soft 1 hard 0".

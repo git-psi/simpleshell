@@ -132,6 +132,10 @@ config without replacing it.
 > **Don't run at the same time**: SimpleShell handles notifications and password prompts itself.
 > Disable mako, dunst, swaync, hyprpolkitagent or polkit-gnome, and any other bar (Waybar…).
 
+> **A newly installed app is missing from the launcher?** It sometimes happens, most often with
+> your first flatpak: the shell only watches the app folders that existed when it started. Type
+> `reload` in the launcher and pick **Reload apps**: the shell restarts and finds it.
+
 ## Configuration
 
 **The easiest: the Settings page** of the quick panel. Accent color, theme, wallpaper, idle

@@ -17,8 +17,10 @@ Singleton {
     readonly property var devices: adapter?.devices.values ?? []
     readonly property var connected: devices.find(d => d.connected) ?? null
 
-    // Bluetooth page open: continuous discovery and pairing allowed.
+    // Bluetooth page open: continuous discovery and pairing allowed. The page stays loaded when the
+    // panel closes with a click outside: discovery only runs while the panel is open.
     property bool searching: false
+    readonly property bool scanning: searching && Ui.panelOpen
 
     // Agent request: { type: "confirm" | "display", address, name, passkey }, or null.
     property var request: null
@@ -51,13 +53,13 @@ Singleton {
         interval: 3000
         repeat: true
         triggeredOnStart: true
-        running: root.searching && root.ready
+        running: root.scanning && root.ready
         onTriggered: {
             if (!root.adapter.pairable) root.adapter.pairable = true;
             if (!root.adapter.discovering) root.adapter.discovering = true;
         }
     }
-    onSearchingChanged: if (!searching && adapter?.discovering) adapter.discovering = false
+    onScanningChanged: if (!scanning && adapter?.discovering) adapter.discovering = false
 
     Process {
         id: agent
@@ -76,8 +78,17 @@ Singleton {
                 Ui.panelPage = "bluetooth";
             }
         }
-        onExited: { root.request = null; restart.start(); }
+        onStarted: startedAt = Date.now()
+        onExited: {
+            root.request = null;
+            // A run of over a minute was a real run: the count starts over.
+            if (Date.now() - startedAt > 60000) failures = 0;
+            if (++failures <= 5) restart.start();
+        }
+        property real startedAt: 0
+        property int failures: 0
     }
-    // If the agent stops (bluetoothd restarted, error), restart it.
+    // If the agent stops (bluetoothd restarted, error), restart it. Not forever if it can't start
+    // (missing Python module): each attempt wakes the machine up.
     Timer { id: restart; interval: 3000; onTriggered: if (root.available) agent.running = true }
 }

@@ -28,7 +28,7 @@ Rectangle {
     // While dragging the bar: target fraction (-1 = not dragging).
     property real dragFraction: -1
     // Position: the last value given by the player (seek, track, play/pause), then advanced by us
-    // frame by frame (Firefox sometimes reports a rate of 0).
+    // every second (Firefox sometimes reports a rate of 0).
     property real basePos: 0
     property real baseTime: 0
     property real now: 0
@@ -52,8 +52,12 @@ Rectangle {
         function onLengthChanged() { root.syncLength(); }
         function onLengthSupportedChanged() { root.syncLength(); }
     }
-    FrameAnimation {
+    // Once a second (the time shown is in seconds): no redraw on every frame.
+    Timer {
         running: Ui.panelOpen && root.playing && root.visible
+        interval: 1000
+        repeat: true
+        triggeredOnStart: true
         onTriggered: root.now = Date.now()
     }
 

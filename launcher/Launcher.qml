@@ -1,8 +1,8 @@
 // App launcher (Super+Space): a search field and the list of matching apps.
 // Starting with a space searches the text on the web, in the default browser.
 // Arrows or Tab to pick, Enter to launch, Escape or click outside to close.
-// The window always exists (invisible and click-through when closed): so it opens instantly,
-// without animation.
+// Opens without animation. The window only exists while open: a full-screen layer left on screen,
+// even transparent, makes the compositor draw it and prevents direct scanout (fullscreen video).
 import Quickshell
 import Quickshell.Wayland
 import QtQuick
@@ -22,6 +22,7 @@ PanelWindow {
         if (!item) return;
         Ui.launcherOpen = false;
         if (item.web) Apps.webSearch(query.trim());
+        else if (item.reload) Apps.reload();
         else item.execute();
     }
     function move(step) {
@@ -34,9 +35,7 @@ PanelWindow {
     anchors { top: true; bottom: true; left: true; right: true }
     exclusionMode: ExclusionMode.Ignore
     color: "transparent"
-    mask: open ? everywhere : nowhere
-    Region { id: everywhere; item: catcher }
-    Region { id: nowhere }
+    visible: open
 
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.namespace: "simpleshell-launcher"
@@ -139,12 +138,20 @@ PanelWindow {
                     color: selected ? Theme.accentSoft : "transparent"
 
                     readonly property bool web: item.modelData.web === true
+                    readonly property bool reload: item.modelData.reload === true
                     AppIcon {
                         id: appIcon
                         anchors { left: parent.left; leftMargin: Theme.iconGap; verticalCenter: parent.verticalCenter }
                         size: Theme.controlTiny
-                        icon: item.web ? (Apps.browser?.icon ?? "") : item.modelData.icon
-                        name: item.web ? (Apps.browser?.name ?? "Web") : item.modelData.name
+                        icon: item.web ? (Apps.browser?.icon ?? "") : item.reload ? "" : item.modelData.icon
+                        name: item.web ? (Apps.browser?.name ?? "Web") : item.reload ? "" : item.modelData.name
+                    }
+                    // Reload apps: the empty gray square, with a Lucide icon.
+                    Icon {
+                        visible: item.reload
+                        anchors.centerIn: appIcon
+                        size: Theme.iconSmall
+                        name: item.reload ? "rotate-cw" : ""
                     }
                     Txt {
                         anchors {

@@ -136,6 +136,11 @@ sans la remplacer.
 > de mot de passe. Désactive mako, dunst, swaync, hyprpolkitagent ou polkit-gnome, et toute autre
 > barre (Waybar…).
 
+> **Une app tout juste installée n'apparaît pas dans le lanceur ?** Ça arrive parfois, surtout avec
+> ton premier flatpak : le shell ne surveille que les dossiers d'apps qui existaient à son
+> démarrage. Tape `reload` dans le lanceur et choisis **Reload apps** : le shell redémarre et la
+> trouve.
+
 ## Configuration
 
 **Le plus simple : la page Réglages** du panneau rapide. Couleur d'accent, thème, fond d'écran,

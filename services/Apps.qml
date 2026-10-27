@@ -45,29 +45,22 @@ Singleton {
     function search(query) {
         const q = fold(query.trim());
         if (q === "") return [];
-        return all.map(a => ({ a, s: score(a, q) }))
+        const apps = all.map(a => ({ a, s: score(a, q) }))
             .filter(r => r.s >= 0)
             .sort((x, y) => x.s - y.s || x.a.name.localeCompare(y.a.name))
             .map(r => r.a);
+        const s = score(reloadEntry, q);   // not on scattered letters (4): it would show up all the time
+        return s >= 0 && s < 4 ? apps.concat([reloadEntry]) : apps;
     }
 
-    // Quickshell only watches the app folders that exist at startup: the first flatpak (or the
-    // first app in a new folder) creates its folder, and its apps would stay invisible. So we wait
-    // for a missing folder to appear, then restart the shell once to read it.
-    readonly property var appDirs: [Quickshell.env("XDG_DATA_HOME") || Quickshell.env("HOME") + "/.local/share"]
-        .concat((Quickshell.env("XDG_DATA_DIRS") || "/usr/local/share:/usr/share").split(":"))
-        .filter(d => d !== "")
-        .map(d => d + "/applications")
-    Process {
-        running: true
-        // Exit 0 when a folder missing at startup appears, 1 if none was missing.
-        command: ["sh", "-c", "n=$#; for d; do [ -d \"$d\" ] || set -- \"$@\" \"$d\"; done; shift $n\n"
-            + "[ $# -gt 0 ] || exit 1\n"
-            + "while :; do for d; do [ -d \"$d\" ] && exit 0; done; sleep 10; done", "sh"].concat(root.appDirs)
-        onExited: code => {
-            if (code === 0) Quickshell.execDetached(["sh", "-c",
-                "pkill -x qs; pkill -x quickshell; sleep 0.5; qs -c simpleshell -n -d"]);
-        }
+    // "Reload apps" entry, after the apps: Quickshell doesn't always see a newly installed app (the
+    // first flatpak creates a folder it wasn't watching) and can't rescan: the shell restarts.
+    readonly property var reloadEntry: ({
+        reload: true, name: "Reload apps", genericName: "Find newly installed apps", comment: "",
+        keywords: ["refresh", "restart", "flatpak", "applications", "missing"], categories: []
+    })
+    function reload() {
+        Quickshell.execDetached(["sh", "-c", "pkill -x qs; pkill -x quickshell; sleep 0.5; qs -c simpleshell -n -d"]);
     }
 
     // Default browser (xdg-mime), for web search.

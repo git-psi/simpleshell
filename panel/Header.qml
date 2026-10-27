@@ -11,7 +11,12 @@ RowLayout {
     id: root
     spacing: Theme.cardPad
 
-    SystemClock { id: clock; precision: Settings.clockSeconds ? SystemClock.Seconds : SystemClock.Minutes }
+    // Ticks only while the panel is open.
+    SystemClock {
+        id: clock
+        enabled: Ui.panelOpen
+        precision: Settings.clockSeconds ? SystemClock.Seconds : SystemClock.Minutes
+    }
 
     readonly property var battery: UPower.displayDevice
     readonly property int percent: Format.percent(battery)
